@@ -250,7 +250,8 @@ bot.on("message", function(message) {
                 .setColor("dd1122")
                 .setDescription("***" + message.author.username + "*** wishes you a good nighty ***"+ message.mentions.members.first().user.username + "***")
                 .setImage(sleepgifs[Math.floor(Math.random() * sleepgifs.length)])
-        }      message.channel.sendEmbed(embed)
+                message.channel.sendEmbed(embed)
+        }      
         break;
         case "say":
         var optionalParameter;
