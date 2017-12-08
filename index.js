@@ -50,9 +50,7 @@ bot.on("ready", function(){
 bot.on("message", function(message) {
     
 
-    if (message.content == "hello") {
-        message.channel.sendMessage("Hi there!");
-    }
+    
 
     if (!message.content.startsWith(PREFIX)) return;
 
@@ -82,8 +80,8 @@ bot.on("message", function(message) {
             if (!args[1]) {
                 var embed = new Discord.RichEmbed() 
                     .addField("Prefix",PREFIX)
-                    .addField("Commands","info \nping \n8ball \nsourcecode \nkill\nrunes\nPlay", true)
-                    .addField("Meaning","Gives bot info \nPong! \nPredicts your fate! \nProvides sourcecode \nKills the mentioned user\nProvides you with runes for a LoL champion\nAsks to play" , true)
+                    .addField("Commands","info \nping \n8ball \nsourcecode \nkill\nrunes\nPlay\nNighty", true)
+                    .addField("Meaning","Gives bot info \nPong! \nPredicts your fate! \nProvides sourcecode \nKills the mentioned user\nProvides you with runes for a LoL champion\nAsks to play\nWishes someone a good nighty" , true)
                     .setColor("dd1122")
                 message.channel.sendEmbed(embed); 
             }
@@ -213,7 +211,7 @@ bot.on("message", function(message) {
             }
             else if((args[1].toLowerCase())==="rengar") {  
                 var embed = new Discord.RichEmbed()
-                    .addField("Rengar runes", "These are rengar runes")
+                    .addField("Rengar runes", "These are Rengar runes")
                     .addField("Main tree: Domination", "Dark Harvest\nSudden Impact\nEyeball Collection\nRelentless Hunter",true)
                     .addField("Secondary: Sorcery","Celerity\nThe Ultimate Hat",true)
                     .setImage("https://i.imgur.com/405CC3N.png")
@@ -222,7 +220,7 @@ bot.on("message", function(message) {
             }
             else if((args[1].toLowerCase())==="hecarim")    {
                 var embed = new Discord.RichEmbed()
-                    .addField("Hecarim runes", "These are hecarim runes")
+                    .addField("Hecarim runes", "These are Hecarim runes")
                     .addField("Main tree: Domination", "Predator\nSudden Impact\nEyeball Collection\nRelentless Hunter",true)
                     .addField("Secondary: Sorcery","Celerity\nWaterwalking",true)
                     .setImage("https://i.imgur.com/GBHL3Ue.png")
@@ -230,7 +228,7 @@ bot.on("message", function(message) {
             message.channel.sendEmbed(embed)
             }
             else if((args[1].toLowerCase()))  {
-                message.channel.sendMessage("The following rune pages are known to me as of now:\nGraves\nGangplank\nLeona\nSion")
+                message.channel.sendMessage("The following rune pages are known to me as of now:\nGraves\nGangplank\nLeona\nSion\nHecarim")
             }
             break;
         case "nighty":
@@ -242,7 +240,7 @@ bot.on("message", function(message) {
         else if((args[1].toLowerCase())==="me") {
             var embed = new Discord.RichEmbed()
                 .setColor("dd1122")
-                .setDescription("I'm going to sleep. Have fun while I'm gone.")
+                .setDescription("**"+ message.author.username + "** is going to bed. Good nighty!")
                 .setImage(sleepgifs[Math.floor(Math.random() * sleepgifs.length)])
                 //.setImage("https://media1.tenor.com/images/b1cdf65b0627586b7ad2274c011b100f/tenor.gif?itemid=8503491")
             message.channel.sendEmbed(embed)
@@ -289,4 +287,4 @@ bot.on("message", function(message) {
 
 
 
-bot.login(process.env.TOKEN);
+bot.login(TOKEN);
