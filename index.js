@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const config = require("./BotSettings.json")
 const TOKEN = config.TOKEN;
-const jsonfile = require("jsonfile")
 const fs = require('fs')
 const arrays = require("./Arrays.json")
 const PREFIX = config.PREFIX;
