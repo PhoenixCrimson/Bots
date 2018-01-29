@@ -1,8 +1,17 @@
 const Discord = require("discord.js");
 const config = require("./BotSettings.json")
 const TOKEN = config.TOKEN;
-
+const jsonfile = require("jsonfile")
+const fs = require('fs')
+const arrays = require("./Arrays.json")
 const PREFIX = config.PREFIX;
+
+
+var obj;
+fs.readFile('BotSettings.json', 'utf8', function (err, data) {
+  if (err) throw err;
+  obj = JSON.parse(data);
+});
 
 var fortunes = [
     "Yes",
@@ -41,6 +50,8 @@ var playgifs = ["https://media.giphy.com/media/UU4iU8xJ8Vpy8/giphy.gif",
 "https://thumbs.gfycat.com/ConsiderateUnfortunateBellfrog-small.gif"
 ]
 
+var LeaderboardNames = arrays.LeaderboardNames
+var LeaderboardKills = arrays.LeaderboardKills
 var bot = new Discord.Client();
 
 bot.on("ready", function(){
@@ -50,9 +61,7 @@ bot.on("ready", function(){
 bot.on("message", function(message) {
     
 
-    if (message.content == "hello") {
-        message.channel.sendMessage("Hi there!");
-    }
+    
 
     if (!message.content.startsWith(PREFIX)) return;
 
@@ -82,8 +91,8 @@ bot.on("message", function(message) {
             if (!args[1]) {
                 var embed = new Discord.RichEmbed() 
                     .addField("Prefix",PREFIX)
-                    .addField("Commands","info \nping \n8ball \nsourcecode \nkill\nrunes\nPlay", true)
-                    .addField("Meaning","Gives bot info \nPong! \nPredicts your fate! \nProvides sourcecode \nKills the mentioned user\nProvides you with runes for a LoL champion\nAsks to play" , true)
+                    .addField("Commands","info \nping \n8ball \nsourcecode \nkill\nrunes\nPlay\nNighty", true)
+                    .addField("Meaning","Gives bot info \nPong! \nPredicts your fate! \nProvides sourcecode \nKills the mentioned user\nProvides you with runes for a LoL champion\nAsks to play\nWishes someone a good nighty" , true)
                     .setColor("dd1122")
                 message.channel.sendEmbed(embed); 
             }
@@ -165,6 +174,7 @@ bot.on("message", function(message) {
                 message.channel.sendEmbed(embed)
             }
             break;
+
         case "runes":
         message.delete()
         const Resolve = "49ba10";
@@ -213,7 +223,7 @@ bot.on("message", function(message) {
             }
             else if((args[1].toLowerCase())==="rengar") {  
                 var embed = new Discord.RichEmbed()
-                    .addField("Rengar runes", "These are rengar runes")
+                    .addField("Rengar runes", "These are Rengar runes")
                     .addField("Main tree: Domination", "Dark Harvest\nSudden Impact\nEyeball Collection\nRelentless Hunter",true)
                     .addField("Secondary: Sorcery","Celerity\nThe Ultimate Hat",true)
                     .setImage("https://i.imgur.com/405CC3N.png")
@@ -222,7 +232,7 @@ bot.on("message", function(message) {
             }
             else if((args[1].toLowerCase())==="hecarim")    {
                 var embed = new Discord.RichEmbed()
-                    .addField("Hecarim runes", "These are hecarim runes")
+                    .addField("Hecarim runes", "These are Hecarim runes")
                     .addField("Main tree: Domination", "Predator\nSudden Impact\nEyeball Collection\nRelentless Hunter",true)
                     .addField("Secondary: Sorcery","Celerity\nWaterwalking",true)
                     .setImage("https://i.imgur.com/GBHL3Ue.png")
@@ -230,10 +240,13 @@ bot.on("message", function(message) {
             message.channel.sendEmbed(embed)
             }
             else if((args[1].toLowerCase()))  {
-                message.channel.sendMessage("The following rune pages are known to me as of now:\nGraves\nGangplank\nLeona\nSion")
+                message.channel.sendMessage("The following rune pages are known to me as of now:\nGraves\nGangplank\nLeona\nSion\nHecarim")
             }
             break;
-        case "nighty":
+
+
+        
+            case "nighty":
         message.delete()
         let nighty = message.mentions.users.first() || message.guild.members.get(args[0]);
         if (!args[1])   {
@@ -242,7 +255,7 @@ bot.on("message", function(message) {
         else if((args[1].toLowerCase())==="me") {
             var embed = new Discord.RichEmbed()
                 .setColor("dd1122")
-                .setDescription("I'm going to sleep. Have fun while I'm gone.")
+                .setDescription("**"+ message.author.username + "** is going to bed. Good nighty!")
                 .setImage(sleepgifs[Math.floor(Math.random() * sleepgifs.length)])
                 //.setImage("https://media1.tenor.com/images/b1cdf65b0627586b7ad2274c011b100f/tenor.gif?itemid=8503491")
             message.channel.sendEmbed(embed)
@@ -252,8 +265,10 @@ bot.on("message", function(message) {
                 .setColor("dd1122")
                 .setDescription("***" + message.author.username + "*** wishes you a good nighty ***"+ message.mentions.members.first().user.username + "***")
                 .setImage(sleepgifs[Math.floor(Math.random() * sleepgifs.length)])
-        }      message.channel.sendEmbed(embed)
+                message.channel.sendEmbed(embed)
+        }      
         break;
+
         case "say":
         var optionalParameter;
         if (typeof (args[0])==="string")    {
@@ -265,6 +280,7 @@ bot.on("message", function(message) {
         
         message.delete()
         break;
+
         case "play":
         message.delete()
         var playmate = message.mentions.users.first() || message.guild.members.get(args[0]);
@@ -278,7 +294,39 @@ bot.on("message", function(message) {
             .setImage(playgifs[Math.floor(Math.random() * playgifs.length)])
         message.channel.send(embed)
         }
+        case "leaderboard":
+        message.delete()
+        if (!args[1])   {
+            var embed = new Discord.RichEmbed()
+                .setTitle("Leaderboard")
+                .addField("Name",LeaderboardNames,true)
+                .addField("Kills",LeaderboardKills,true)
+            message.channel.send(embed)
+        }
+        else if (args[1]) {
+            if (args[1] === "addname")  {
+                LeaderboardNames.push(args[2])
+                LeaderboardKills.push(0)
+                var data1 = {
+                    "LeaderboardNames": LeaderboardNames,
+                    "LeaderboardKills": LeaderboardKills
+                }
+                
+                
+                var data = JSON.stringify(data1)
+                fs.writeFile('Arrays.json',data, function (err) {
+                    if (err) throw err;
+                    console.log('Updated!');
+                  });
+            }
+            if (args[1] === "addscore")  {
+                var mark = LeaderboardNames.indexOf(args[2])
+                var current = LeaderboardKills[mark]
+                LeaderboardKills.splice(mark,1,(parseInt(current) + parseInt(args[3])))
+            }
+        }
         break;
+
         default:
             message.channel.sendMessage("I do not know this, please teach me.")
         
